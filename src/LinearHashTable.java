@@ -18,7 +18,7 @@
  * CptS 233: MA3: LinearHashTable.java
  * Date November 24, 2020
  * git repo url: https://github.com/Chase1242/MA3.git
- * Implemented a function hash table.
+ * Implemented a function hash table.	
  */
 
 class LinearHashTable<K, V> extends HashTableBase<K, V>
@@ -59,14 +59,17 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
  
         // Calculate hash based on key
         int hash = super.getHash(key);
+        // find the current slot
         HashItem<K, V> slot = _items.elementAt(hash);
+        // make a new HashItem to add to the table
         HashItem<K, V> newItem = new HashItem<K, V>(key, value, false);
-        // MA TODO: find empty slot to insert (update HashItem as necessary)
+        // make sure the current slot is empty
         while (!slot.isEmpty()) {
-        	hash = (hash + 1) % this._primes[this._local_prime_index];
+        	// if not, linear probe
+        	hash = (hash + 1) % _items.size();
         	slot = _items.elementAt(hash);
         }
-        
+        // wehn we find empty slot, put new item there
         _items.setElementAt(newItem, hash);
 
         
@@ -81,12 +84,17 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
     {
         // Calculate hash from key
         int hash = super.getHash(key);
+        // finds the element at that hash
         HashItem<K, V> slot = _items.elementAt(hash);
-//        System.out.println(containsElement(key));
+        // makes sure this item is actually in array
         if (containsElement(key)) {
+        	// loops through whole array to ensure whole array is looped through
         	for (int i = 0; i < _items.size() - 1; i++) {
-        		if (!slot.isTrueEmpty()) {
+        		// as long as the slot is not empty AND the given key equals the current slot key
+        		// then we have found our key and we lazy delete it
+        		if (!slot.isEmpty()) {
         			if (slot.getKey().equals(key)) {
+        				
         				slot.setIsEmpty(true);
         		        _items.setElementAt(slot, hash);
         			}
@@ -97,12 +105,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
 	        
 	        _number_of_elements--;
         }
-        // MA TODO: find slot to remove. Remember to check for infinite loop!
-        //  ALSO: Use lazy deletion - see structure of HashItem
-
-
-        // Make sure decrease hashtable size
-    	//  Hint: do we always reduce the size whenever this function is called?
         
     }
     
@@ -120,7 +122,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
 	}
     
     // Returns true if the key is contained in the hash table
-	// TODO: complete
     public boolean containsElement(K key)
     {
     	int size = _items.size();
@@ -128,8 +129,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
         HashItem<K, V> slot = _items.elementAt(0);
         for (int i = 0; i < size - 1; i++){
         	if (!slot.isEmpty()) {
-//        		System.out.println(slot + " " + _items.elementAt(hash));
-//        		System.out.println(slot.equals(_items.elementAt(hash)));
         		if (slot.equals(_items.elementAt(hash))) 
         			return true;
         	}
@@ -141,7 +140,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
     }
     
     // Returns the item pointed to by key
-    // TODO: complete
     public V getElement(K key)
     {
     	// gets the hash code for us
@@ -152,7 +150,7 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
         	if (slot.getKey().equals(key)) {
 				return slot.getValue();
         	}
-			hash = (hash + 1) % this._primes[this._local_prime_index];
+			hash = (hash + 1) % _items.size();
 			slot = _items.elementAt(hash);
         }
         // Left incomplete to avoid hints in the MA :) screw you
