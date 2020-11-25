@@ -13,6 +13,13 @@
  *   http://creativecommons.org/licenses/by-nc-nd/4.0
  */
 
+/* 
+ * Chase Conaway
+ * CptS 233: MA3: LinearHashTable.java
+ * Date November 24, 2020
+ * git repo url: https://github.com/Chase1242/MA3.git
+ * Implemented a function hash table.
+ */
 
 class LinearHashTable<K, V> extends HashTableBase<K, V>
 {
