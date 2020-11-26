@@ -153,7 +153,7 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
 			hash = (hash + 1) % _items.size();
 			slot = _items.elementAt(hash);
         }
-        // Left incomplete to avoid hints in the MA :) screw you
+        // Left incomplete to avoid hints in the MA :)
         return null;	
     }
 
